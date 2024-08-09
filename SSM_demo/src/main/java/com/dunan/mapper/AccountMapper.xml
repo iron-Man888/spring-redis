@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dunan.mapper.AccountMapper">
+
+<!--    List<Account> selectAccount();-->
+    <select id="selectAccount" resultType="com.dunan.pojo.Account">
+        SELECT * FROM account
+    </select>
+
+<!--    void addAccount(Account account);-->
+    <insert id="addAccount" parameterType="com.dunan.pojo.Account">
+        INSERT INTO account (name, money, date, head)
+        VALUES (#{name}, #{money}, #{date}, #{head});
+    </insert>
+
+<!--    void updateAccount(Account account);-->
+    <update id="updateAccount" parameterType="com.dunan.pojo.Account">
+        UPDATE account
+        <set>
+            <if test="name!=null and name!='' ">
+                name=#{name},
+            </if>
+            <if test="money!=null">
+                money=#{money},
+            </if>
+            <if test="head!=null and head!='' ">
+                head=#{head},
+            </if>
+            <if test="date!=null  ">
+                date=#{date},
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+<!--    Account findAccount(Integer id);-->
+    <select id="findAccount"  resultType="com.dunan.pojo.Account">
+        SELECT *
+        FROM account
+        WHERE id = #{id}
+    </select>
+
+<!--    void deleteAccount(Integer id);-->
+    <delete id="deleteAccount" parameterType="java.lang.Integer">
+        DELETE
+        FROM account
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

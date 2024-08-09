@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.by.mapper.AccountMapper">
+    <!--    List<Account> selectAccount();-->
+    <select id="selectAccount" resultType="com.by.pojo.Account">
+        SELECT *
+        FROM account
+    </select>
+    <!--    void deleteAccount(Integer id);-->
+    <delete id="deleteAccount" parameterType="java.lang.Integer">
+        DELETE
+        FROM account
+        WHERE id = #{id}
+    </delete>
+    <!--    void insertAccount(Account account);-->
+    <insert id="insertAccount" parameterType="com.by.pojo.Account">
+        INSERT INTO account (name, money,head,date)
+        VALUES (#{name}, #{money},#{head},#{date})
+    </insert>
+<!--    Account findAccountById(Integer id);-->
+    <select id="findAccountById" parameterType="java.lang.Integer" resultType="com.by.pojo.Account">
+        SELECT *
+        FROM account
+        WHERE id = #{id}
+    </select>
+
+<!--    void updateAccount(Account account);-->
+    <update id="updateAccount" parameterType="com.by.pojo.Account">
+        UPDATE account
+        <set>
+            <if test="name!=null and name!='' ">
+                name=#{name},
+            </if>
+            <if test="money!=null">
+                money=#{money},
+            </if>
+            <if test="head!=null and head!='' ">
+                head=#{head},
+            </if>
+            <if test="date!=null  ">
+                date=#{date},
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+<!--    List<Account> fuzzyAccount(FuzzyAccount fuzzyAccount);-->
+    <select id="fuzzyAccount" parameterType="com.by.pojo.FuzzyAccount" resultType="com.by.pojo.Account">
+        SELECT * FROM account
+        <where>
+            <if test="name!=null and name!='' ">
+                AND name LIKE concat('%',#{name},'%')
+            </if>
+            <if test="minMoney!=null ">
+                AND money >= #{minMoney}
+            </if>
+            <if test="maxMoney!=null  ">
+                AND money &lt;= #{maxMoney}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
